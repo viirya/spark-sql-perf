@@ -88,6 +88,7 @@ class TPCDS(@transient sqlContext: SQLContext)
         override def run(): Unit = {
           try {
             sqlContext.sparkContext.setJobGroup(jobgroup, jobgroup, true)
+            df.explain()
             df.show(numRows)
           } catch {
             case e: Exception =>
@@ -101,7 +102,7 @@ class TPCDS(@transient sqlContext: SQLContext)
       t.join(timeout)
       if (t.isAlive) {
         println(s"Timeout after $timeout seconds")
-        sqlContext.sparkContext.cancelJobGroup(jobgroup)
+        // sqlContext.sparkContext.cancelJobGroup(jobgroup)
         t.interrupt()
       } else {
         if (!failed) {
