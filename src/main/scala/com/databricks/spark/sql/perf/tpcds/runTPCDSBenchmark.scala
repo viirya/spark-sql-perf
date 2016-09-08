@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Liang-Chi Hsieh
+ * Copyright 2016 Liang-Chi Hsieh
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,13 +43,13 @@ object runTPCDSBenchmark {
         .action((x, c) => c.copy(dataLocation = x))
         .text("data location")
         .required()
-      opt[Boolean]('e', "externalTable")
-        .action((x, c) => c.copy(externalTable = x))
+      opt[String]('e', "externalTable")
+        .action((x, c) => c.copy(externalTable = x.toBoolean))
         .text("Use metastore table")
       opt[String]('q', "queries")
         .action((x, c) => c.copy(queries = x.split(",").map(_.trim)))
         .text("Queries to run")
-        
+
       help("help")
         .text("prints this usage text")
     }
@@ -75,7 +75,7 @@ object runTPCDSBenchmark {
 
     if (config.externalTable) {
       tables.createExternalTables(config.dataLocation, config.format, config.databaseName,
-      config.overwrite)
+        config.overwrite)
     } else {
       tables.createTemporaryTables(config.dataLocation, config.format)
     }
@@ -84,9 +84,7 @@ object runTPCDSBenchmark {
     val runQueries = if (config.queries.isEmpty) {
       tpcds.all
     } else {
-      tpcds.all.filter { q =>
-        config.queries.contains(q.name)
-      }
+      config.queries.map(tpcds.tpcds1_4QueriesMap)
     }
     tpcds.run(runQueries)
   }
