@@ -70,6 +70,17 @@ runBenchmark := {
     streams.value.log)
 }
 
+val genTPCDSData = inputKey[Unit]("generates TPC-DS benchmark data")
+
+genTPCDSData := {
+  import complete.DefaultParsers._
+  val args = spaceDelimited("[args]").parsed
+  val scalaRun = (runner in run).value
+  val classpath = (fullClasspath in Compile).value
+  scalaRun.run("com.databricks.spark.sql.perf.tpcds.genBenchmarkData", classpath.map(_.data), args,
+    streams.value.log)
+}
+
 import ReleaseTransformations._
 
 /** Push to the team directory instead of the user's homedir for releases. */
