@@ -83,3 +83,14 @@ In spark-sql-perf directory, run:
 
 There are some parameters for `gen-tpcds-data`. For details, please look at the codes.
 
+### Run TPC-DS queries
+
+Run with default Spark package.
+
+    bin/run-tpcds --dataLocation /path/to/location/for/generated/data --queries q64,q28 --externalTable [true|false] 
+
+Run with local Spark binary.
+
+    bin/spark-submit --master local --class com.databricks.spark.sql.perf.tpcds.runTPCDSBenchmark  /path/to/spark-sql-perf/target/scala-2.10/spark-sql-perf-assembly-0.4.10-SNAPSHOT.jar --dataLocation /path/to/location/for/generated/data --queries q64,q28 --externalTable [true|false]
+
+
