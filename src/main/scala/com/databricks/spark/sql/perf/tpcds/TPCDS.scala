@@ -88,8 +88,13 @@ class TPCDS(@transient sqlContext: SQLContext)
         override def run(): Unit = {
           try {
             sqlContext.sparkContext.setJobGroup(jobgroup, jobgroup, true)
-            df.explain()
             df.show(numRows)
+            println("analyzed: ")
+            println(df.queryExecution.analyzed)
+            println("optimizedPlan: ")
+            println(df.queryExecution.optimizedPlan)
+            println("executedPlan: ")
+            println(df.queryExecution.executedPlan)
           } catch {
             case e: Exception =>
               println("Failed to run: " + e)
