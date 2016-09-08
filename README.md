@@ -72,3 +72,14 @@ sqlContext.table("sqlPerformance")
 // Get the result of a particular run by specifying the timestamp of that run.
 sqlContext.table("sqlPerformance").filter("timestamp = 1429132621024")
 ```
+
+### Generate the benchmark data for TPC-DS
+
+First, please go to clone dsdgen tools from this [repos](https://github.com/davies/tpcds-kit), build the tools with `cd tools; make -f Makefile.suite` after you install some requirements (e.g., yacc, lex, etc.).
+
+In spark-sql-perf directory, run:
+
+    bin/gen-tpcds-data --dsdgenLocation /path/to/dsdgen/tools --dataLocation /path/to/location/for/generated/data --scaleFactor [1/10/100...]
+
+There are some parameters for `gen-tpcds-data`. For details, please look at the codes.
+
