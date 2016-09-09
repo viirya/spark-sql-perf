@@ -81,13 +81,15 @@ In spark-sql-perf directory, run:
 
     bin/gen-tpcds-data --dsdgenLocation /path/to/dsdgen/tools --dataLocation /path/to/location/for/generated/data --scaleFactor [1/10/100...]
 
-There are some parameters for `gen-tpcds-data`. For details, please look at the codes.
+The parameter `scaleFactor` specifies the scale of generated data in GB. There are other parameters for `gen-tpcds-data`. For details, please look at the codes.
 
 ### Run TPC-DS queries
 
 Run with default Spark package.
 
     bin/run-tpcds --dataLocation /path/to/location/for/generated/data --queries q64,q28 --externalTable [true|false] 
+
+When `externalTable` is set to `true`, the metastore tables required for the queries will be created. If it is set to `false`, temporary views will be used for the queries.
 
 Run with local Spark binary.
 
