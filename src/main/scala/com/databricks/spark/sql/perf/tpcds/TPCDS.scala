@@ -107,8 +107,7 @@ class TPCDS(@transient sqlContext: SQLContext)
       t.join(timeout)
       if (t.isAlive) {
         println(s"Timeout after $timeout seconds")
-        // sqlContext.sparkContext.cancelJobGroup(jobgroup)
-        t.interrupt()
+        sqlContext.sparkContext.cancelJobGroup(jobgroup)
       } else {
         if (!failed) {
           succeeded += q.name
